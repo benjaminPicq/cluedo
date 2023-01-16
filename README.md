@@ -1,8 +1,7 @@
 # cluedo
 jeu d'énigme interactif
-Créer plusieurs salles (on peut changer de salle en appuyant sur une flèche avec la souris)
+Créer plusieurs salles (on peut changer de salle en appuyant sur une flèche avec la souris) (cuisine, salon, salle à manger, couloir, salle de bain, chambre)
 Créer des objets interactifs
 Créer plusieurs énigmes 
 Faire des backgrounds
 Mettre un pointeur de souris
-(aussi on peut ajouter des plateformes et un personnage...)
