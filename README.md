@@ -5,3 +5,4 @@ Créer des objets interactifs
 Créer plusieurs énigmes 
 Faire des backgrounds
 Mettre un pointeur de souris
+(aussi on peut ajouter des plateformes et un personnage...)
