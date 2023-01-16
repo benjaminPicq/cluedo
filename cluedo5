@@ -1,0 +1,23 @@
+#https://kitao.github.io/pyxel/wasm/launcher/?run=benjamenPicq.cluedo.cluedo4
+
+
+
+
+
+
+# =========================================================
+# == UPDATE
+# =========================================================
+def update():
+    """mise à jour des variables (30 fois par seconde)"""
+
+    global
+# =========================================================
+# == DRAW
+# =========================================================
+def draw():
+    """création des objets (30 fois par seconde)"""
+    
+    global 
+
+pyxel.run(update, draw)
