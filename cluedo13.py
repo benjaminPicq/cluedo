@@ -28,9 +28,10 @@ def draw():
     global x,y
     # vide la fenetre
     pyxel.cls(0)
-    
-    pyxel.rect(0, 128, 512, 256, 13)
+    pyxel.rect(0, 384, 512, 128, 9)
+    pyxel.rect(0, 128, 512, 256, 7)
     
     pyxel.rect(x,y, 25,75, 6)
+    
     
 pyxel.run(update,draw)
