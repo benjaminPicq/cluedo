@@ -6,3 +6,6 @@ Créer plusieurs énigmes
 Faire des backgrounds
 Mettre un pointeur de souris
 (on peut aussi mettre des plateformes et un personnages...)
+
+
+https://kitao.github.io/pyxel/wasm/launcher/?run=benjaminPicq.cluedo.cluedo
