@@ -1,10 +1,9 @@
 import pyxel
-#https://kitao.github.io/pyxel/wasm/launcher/?run=benjaminPicq.cluedo.
 
 # taille de la fenetre 512x512 pixels
 # ne pas modifier
-pyxel.init(512, 512, title="Cluedo")
-#mouse(visible) = True
+pyxel.init(512, 512)
+mouse(True)
 
 
 
