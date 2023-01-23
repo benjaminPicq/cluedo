@@ -3,7 +3,7 @@ import pyxel
 # taille de la fenetre 512x512 pixels
 # ne pas modifier
 pyxel.init(512, 512)
-mouse(True)
+pyxel.mouse(True)
 
 x = 256
 y = 256
