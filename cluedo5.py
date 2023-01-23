@@ -4,7 +4,7 @@ import pyxel
 # taille de la fenetre 512x512 pixels
 # ne pas modifier
 pyxel.init(512, 512, title="Cluedo")
-mouse(visible) = True
+#mouse(visible) = True
 
 
 
