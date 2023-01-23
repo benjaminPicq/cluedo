@@ -12,10 +12,6 @@ mouse(visible) = True
 
 
 # flèches interactives
-
-
-def update():
-    """mise à jour des variables (30 fois par seconde)"""
     
     
 # draw
@@ -27,4 +23,4 @@ def draw():
     
     rect(256, 256, 256, 128, 13)
     
-pyxel.run(update, draw)
+pyxel.run(draw)
