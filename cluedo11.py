@@ -6,7 +6,7 @@ pyxel.init(512, 512)
 pyxel.mouse(True)
 
 x = 256
-y = 128
+y = 256
 
 # backgrounds
 
@@ -29,8 +29,8 @@ def draw():
     # vide la fenetre
     pyxel.cls(0)
     
-    pyxel.rect(x,y, 25,25, 6)
+    pyxel.rect(0, 128, 512, 256, 13)
     
-    pyxel.rect(128, 128, 256, 256, 13)
+    pyxel.rect(x,y, 25,25, 6)
     
 pyxel.run(update,draw)
