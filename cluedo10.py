@@ -16,10 +16,6 @@ def update():
     global x,y
     if pyxel.btnp(pyxel.KEY_Q):
         pyxel.quit()   
-    elif pyxel.btnp(pyxel.KEY_T):
-        y = y-10
-    elif pyxel.btnp(pyxel.KEY_G):
-        y = y+10
     elif pyxel.btnp(pyxel.KEY_F):
         x = x-10
     elif pyxel.btnp(pyxel.KEY_H):
@@ -35,6 +31,6 @@ def draw():
     
     pyxel.rect(x,y, 25,25, 6)
     
-    pyxel.rect(256, 256, 128, 128, 13)
+    pyxel.rect(128, 128, 256, 256, 13)
     
 pyxel.run(update,draw)
