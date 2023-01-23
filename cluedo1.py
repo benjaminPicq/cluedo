@@ -4,8 +4,8 @@ import pyxel
 # taille de la fenetre 512x512 pixels
 # ne pas modifier
 pyxel.init(512, 512, title="Cluedo")
+mouse(visible) = True
 
-pyxel.load("images.pyxres")
 
 
 # backgrounds
@@ -24,5 +24,7 @@ def draw():
 
     # vide la fenetre
     pyxel.cls(0)
+    
+    rect(256, 256, 256, 128, 13)
     
 pyxel.run(update, draw)
