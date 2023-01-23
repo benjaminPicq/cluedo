@@ -21,6 +21,6 @@ def draw():
     # vide la fenetre
     pyxel.cls(0)
     
-    rect(256, 256, 256, 128, 13)
+    pyxel.rect(256, 256, 256, 128, 13)
     
 pyxel.run(draw)
