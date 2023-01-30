@@ -1,25 +1,28 @@
 import pyxel
 
-# taille de la fenetre 512x512 pixels
-# ne pas modifier
 pyxel.init(512, 512)
-pyxel.mouse(True)
+
 
 x = 256
 y = 400
 
-# backgrounds
-
-    
 def update():
 # flèches interactives
     global x,y
     if pyxel.btnp(pyxel.KEY_Q):
         pyxel.quit()   
     elif pyxel.btnp(pyxel.KEY_F):
-        x = x-10
+        if (x > 5) :
+            x = x-10
     elif pyxel.btnp(pyxel.KEY_H):
-        x = x+10
+        if (x < 494) :
+            x = x+10
+    elif pyxel.btnp(pyxel.KEY_T):
+        if (y > 5) :
+            y = y-10
+    elif pyxel.btnp(pyxel.KEY_G):
+        if (y < 460) :
+            y = y+10
      
         
 # draw
@@ -28,10 +31,8 @@ def draw():
     global x,y
     # vide la fenetre
     pyxel.cls(0)
-    pyxel.rect(0, 384, 512, 128, 9)
-    pyxel.rect(0, 128, 512, 256, 7)
     
-    pyxel.rect(x,y, 25,75, 6)
+    pyxel.rect(x,y, 16,56, 6)
     
     
 pyxel.run(update,draw)
