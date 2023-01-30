@@ -6,4 +6,4 @@
 -score
 -points de vie
 
-https://kitao.github.io/pyxel/wasm/launcher/?run=benjaminPicq.cluedo.cluedo
+https://kitao.github.io/pyxel/wasm/launcher/?run=benjaminPicq.dodge-game.dodge0
