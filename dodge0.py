@@ -3,6 +3,7 @@ import pyxel, random
 # taille de la fenetre 512x512 pixels
 # ne pas modifier
 pyxel.init(512, 512)
+"""pyxel.load("images,.pyxres")"""
 
 x = 249
 y = 400
