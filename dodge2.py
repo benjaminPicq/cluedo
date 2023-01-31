@@ -11,6 +11,7 @@ w = 16
 h = 32
 ennemis_liste_up = []
 ennemis_liste_left = []
+score = 0
 
 def personnage_deplacement(x, y):
     """déplacement avec les touches de directions"""
@@ -59,30 +60,39 @@ def ennemis_deplacement_left(ennemis_liste_left):
             ennemis_liste_left.remove(ennemi)
     return ennemis_liste_left
     
+def score_timer(score):
+    """augmente le score au fur et a mesure du temps"""
+    if 127 < 128:
+        score += 1
+    return score
+    
 # =========================================================
 # == UPDATE
 # =========================================================
 def update():
 # flèches interactives
-    global x,y,ennemis_liste_up,ennemis_liste_left
+    global x,y,ennemis_liste_up,ennemis_liste_left,score
     x, y = personnage_deplacement(x, y)
     ennemis_liste_up = ennemis_creation_up(ennemis_liste_up)
     ennemis_liste_left = ennemis_creation_left(ennemis_liste_left)
     ennemis_liste_up = ennemis_deplacement_up(ennemis_liste_up)
-    ennemis_liste_left = ennemis_deplacement_left(ennemis_liste_left)    
+    ennemis_liste_left = ennemis_deplacement_left(ennemis_liste_left)
+    score = score_timer(score)
 # =========================================================
 # == DRAW
 # =========================================================
 def draw():
     """création des objets (30 fois par seconde)"""
-    global x,y,ennemis_liste,ennemis_liste_left
-    
+    global x,y,ennemis_liste,ennemis_liste_left,score
     # vide la fenetre
     pyxel.cls(0)
-    
+    pyxel.rect(0,0,512,512,7)     
+
+  
     # dessiner le reste:
+    pyxel.text(350, 400, f"score: {score}", 6)
     # backgrounds
-    pyxel.rect(0,0,512,512,7)
+
     pyxel.rect(x , y , w , h, 8)
     for ennemi in ennemis_liste_up:
         pyxel.blt(ennemi[0], ennemi[1], 0, 0, 32, 32, 6)
