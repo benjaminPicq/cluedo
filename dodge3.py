@@ -30,35 +30,23 @@ def personnage_deplacement(x, y):
 
     return x, y
 
-def ennemis_creation_up(ennemis_liste_up):
+def ennemis_creation(ennemis_liste, direction): #direction 0 = left et direction 1 = up
     """création aléatoire des ennemis"""
     # un ennemi par seconde
     if (pyxel.frame_count % 30 == 0):
-        ennemis_liste_up.append([random.randint(0, 480), 0])
-    return ennemis_liste_up
+        if direction == 1:
+            ennemis_liste.append([random.randint(0, 480), 0])
+        else:
+            ennemis_liste.append([0, random.randint(0, 480)])
+    return ennemis_liste
 
-def ennemis_creation_left(ennemis_liste_left):
-    """création aléatoire des ennemis"""
-    # un ennemi par seconde
-    if (pyxel.frame_count % 30 == 0):
-        ennemis_liste_left.append([0, random.randint(0, 480)])
-    return ennemis_liste_left
-
-def ennemis_deplacement_up(ennemis_liste_up):
+def ennemis_deplacement(ennemis_liste, direction):
     """déplacement des ennemis vers le haut et suppression s'ils sortent du cadre"""
-    for ennemi in ennemis_liste_up:
-        ennemi[1] += 6
-        if  ennemi[1]>512:
-            ennemis_liste_up.remove(ennemi)
-    return ennemis_liste_up
-    
-def ennemis_deplacement_left(ennemis_liste_left):
-    """déplacement des ennemis vers le haut et suppression s'ils sortent du cadre"""
-    for ennemi in ennemis_liste_left:
-        ennemi[0] += 6
-        if  ennemi[0]>512:
-            ennemis_liste_left.remove(ennemi)
-    return ennemis_liste_left
+    for ennemi in ennemis_liste:
+        ennemi[direction] += 6
+        if  ennemi[direction]>512:
+            ennemis_liste.remove(ennemi)
+    return ennemis_liste
     
 def score_timer(score):
     """augmente le score au fur et a mesure du temps"""
@@ -73,10 +61,10 @@ def update():
 # flèches interactives
     global x,y,ennemis_liste_up,ennemis_liste_left,score
     x, y = personnage_deplacement(x, y)
-    ennemis_liste_up = ennemis_creation_up(ennemis_liste_up)
-    ennemis_liste_left = ennemis_creation_left(ennemis_liste_left)
-    ennemis_liste_up = ennemis_deplacement_up(ennemis_liste_up)
-    ennemis_liste_left = ennemis_deplacement_left(ennemis_liste_left)
+    ennemis_liste_up = ennemis_creation(ennemis_liste_up, 1)
+    ennemis_liste_left = ennemis_creation(ennemis_liste_left, 0)
+    ennemis_liste_up = ennemis_deplacement(ennemis_liste_up, 1)
+    ennemis_liste_left = ennemis_deplacement(ennemis_liste_left, 0)
     score = score_timer(score)
 # =========================================================
 # == DRAW
@@ -95,8 +83,8 @@ def draw():
 
     pyxel.rect(x , y , w , h, 8)
     for ennemi in ennemis_liste_up:
-        pyxel.blt(ennemi[0], ennemi[1], 0, 0, 32, 32, 6)
+        pyxel.blt(ennemi[0], ennemi[1], 0, 0, 32, 32, 32)
     for ennemi in ennemis_liste_left:
-        pyxel.blt(ennemi[0], ennemi[1], 0, 0, 32, 32, 6)
+        pyxel.blt(ennemi[0], ennemi[1], 0, 0, 32, 32, 32)
     
 pyxel.run(update,draw)
