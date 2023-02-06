@@ -1,6 +1,6 @@
 import pyxel, random
 
-# taille de la fenetre 512x512 pixels
+# taille de la fenetre 256x256 pixels
 # ne pas modifier
 pyxel.init(256, 256)
 """pyxel.load("images,.pyxres")"""
@@ -12,6 +12,8 @@ h = 16
 ennemis_liste_up = []
 ennemis_liste_left = []
 score = 0
+vie = 3
+game = True
 
 def personnage_deplacement(x, y):
     """déplacement avec les touches de directions"""
@@ -47,25 +49,34 @@ def ennemis_deplacement(ennemis_liste, direction):
         if  ennemi[direction]>256:
             ennemis_liste.remove(ennemi)
     return ennemis_liste
-    
+
 def score_timer(score):
     """augmente le score au fur et a mesure du temps"""
     if 127 < 128:
         score += 1
     return score
+
+def lose(game):
+    global vie
+    if vie == 0:
+        game = False
+    return game
     
 # =========================================================
 # == UPDATE
 # =========================================================
 def update():
 # flèches interactives
-    global x,y,ennemis_liste_up,ennemis_liste_left,score
+    global x,y,ennemis_liste_up,ennemis_liste_left,score,game,vie
     x, y = personnage_deplacement(x, y)
     ennemis_liste_up = ennemis_creation(ennemis_liste_up, 1)
     ennemis_liste_left = ennemis_creation(ennemis_liste_left, 0)
     ennemis_liste_up = ennemis_deplacement(ennemis_liste_up, 1)
     ennemis_liste_left = ennemis_deplacement(ennemis_liste_left, 0)
     score = score_timer(score)
+    
+    if pyxel.btnr(pyxel.KEY_SPACE):
+        game = False
 # =========================================================
 # == DRAW
 # =========================================================
@@ -87,4 +98,7 @@ def draw():
     for ennemi in ennemis_liste_left:
         pyxel.blt(ennemi[0], ennemi[1], 0, 0, 16, 16, 16)
     
+    if game == False:
+        pyxel.cls(7)
+        pyxel.text(110, 128, "Game Over", 0)
 pyxel.run(update,draw)
