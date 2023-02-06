@@ -74,9 +74,8 @@ def update():
     ennemis_liste_up = ennemis_deplacement(ennemis_liste_up, 1)
     ennemis_liste_left = ennemis_deplacement(ennemis_liste_left, 0)
     score = score_timer(score)
+    game = lose(game)
     
-    if pyxel.btnr(pyxel.KEY_SPACE):
-        game = False
 # =========================================================
 # == DRAW
 # =========================================================
