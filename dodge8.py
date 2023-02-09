@@ -12,7 +12,7 @@ h = 16
 ennemis_liste_up = []
 ennemis_liste_left = []
 score = 0
-vie = 3
+vies = 3
 game = True
 
 def personnage_deplacement(x, y):
@@ -52,13 +52,13 @@ def ennemis_deplacement(ennemis_liste, direction):
 
 def score_timer(score):
     """augmente le score au fur et a mesure du temps"""
-    if 127 < 128:
+    if vies>0:
         score += 1
     return score
 
 def lose(game):
-    global vie
-    if vie == 0:
+    global vies
+    if vies == 0:
         game = False
     return game
     
@@ -86,6 +86,7 @@ def draw():
     pyxel.cls(0)
     pyxel.rect(0,0,256,256,7)     
 
+    pyxel.text(175, 200, f"score: {score}", 6)
   
     # dessiner le reste:
     pyxel.text(175, 200, f"score: {score}", 6)
