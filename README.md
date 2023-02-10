@@ -6,4 +6,11 @@
 -score
 -points de vie
 
+pour apres les vacances:
+-mettre les images et dessiner background
+
+
+
+
+
 https://kitao.github.io/pyxel/wasm/launcher/?run=benjaminPicq.dodge-game.dodge0
