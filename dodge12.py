@@ -1,13 +1,13 @@
 import pyxel, random
-#https://www.pyxelstudio.net/studio/4mp2f96v
+#www.pyxelstudio.net/qwklx584
 
 # taille de la fenetre 256x256 pixels
 # ne pas modifier
 pyxel.init(256, 256)
 pyxel.load("res.pyxres")
 
-x = 124
-y = 200
+personnage_x = 124
+personnage_y = 200
 w = 16
 h = 16
 ennemis_liste_up = []
@@ -15,6 +15,7 @@ ennemis_liste_left = []
 score = 0
 vies = 3
 game = True
+transparent_colour = 7
 
 def personnage_deplacement(x, y):
     """déplacement avec les touches de directions"""
@@ -63,26 +64,33 @@ def lose(game):
         game = False
     return game
     
+def collisions_left(ennemis_liste, vies):
+    for ennemi in ennemis_liste:
+        if ((personnage_x + w) >= (ennemi[0] + w) >= personnage_x) and ((personnage_y + h) >= (ennemi[1] + (w/2)) >= personnage_y):
+            ennemis_liste.remove(ennemi)
+            vies = vies -1
+    return ennemis_liste, vies
+    
 # =========================================================
 # == UPDATE
 # =========================================================
 def update():
 # flèches interactives
-    global x,y,ennemis_liste_up,ennemis_liste_left,score,game,vie
-    x, y = personnage_deplacement(x, y)
+    global personnage_x,personnage_y,ennemis_liste_up,ennemis_liste_left,score,game,vies
+    personnage_x, personnage_y = personnage_deplacement(personnage_x, personnage_y)
     ennemis_liste_up = ennemis_creation(ennemis_liste_up, 1)
     ennemis_liste_left = ennemis_creation(ennemis_liste_left, 0)
     ennemis_liste_up = ennemis_deplacement(ennemis_liste_up, 1)
     ennemis_liste_left = ennemis_deplacement(ennemis_liste_left, 0)
     score = score_timer(score)
     game = lose(game)
-    
+    ennemis_liste_left, vies = collisions_left(ennemis_liste_left, vies)
 # =========================================================
 # == DRAW
 # =========================================================
 def draw():
     """création des objets (30 fois par seconde)"""
-    global x,y,ennemis_liste,ennemis_liste_left,score
+    global personnage_x,personnage_y,ennemis_liste,ennemis_liste_left,score,vies
     # vide la fenetre
     pyxel.cls(0)     
     # backgrounds
@@ -91,15 +99,12 @@ def draw():
     pyxel.text(175, 200, f"score: {score}", 6)
   
     # dessiner le reste:
-
-    pyxel.rect(x , y , w , h, 8)
-    
-    pyxel.blt(x, y, 0, 0, 0, 16, 16, 6)
+    pyxel.blt(personnage_x, personnage_y, 0, 0, 0, 16, 16, transparent_colour)
     
     for ennemi in ennemis_liste_up:
-        pyxel.blt(ennemi[0], ennemi[1], 0, 0, 48, 16, 16, 7)
+        pyxel.blt(ennemi[0], ennemi[1], 0, 0, 48, 8, 16, 7)
     for ennemi in ennemis_liste_left:
-        pyxel.blt(ennemi[0], ennemi[1], 0, 0, 48, 16, 16, 7)
+        pyxel.blt(ennemi[0], ennemi[1], 0, 0, 48, 16, 8, 7)
     
     if game == False:
         pyxel.cls(7)
