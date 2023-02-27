@@ -3,11 +3,11 @@ import pyxel, random
 # taille de la fenetre 256x256 pixels
 # ne pas modifier
 pyxel.init(256, 256)
-"""pyxel.load("images,.pyxres")"""
+pyxel.load("res.pyxres")
 
 x = 124
 y = 200
-w = 8
+w = 16
 h = 16
 ennemis_liste_up = []
 ennemis_liste_left = []
@@ -18,10 +18,10 @@ game = True
 def personnage_deplacement(x, y):
     """déplacement avec les touches de directions"""
     if pyxel.btn(pyxel.KEY_RIGHT):
-        if (x < 256-w):
+        if (x < 256-w+2):
             x = x+2
     if pyxel.btn(pyxel.KEY_LEFT):
-        if (x > 0):
+        if (x > -2):
             x = x-2
     if pyxel.btn(pyxel.KEY_UP):
         if (y > 0):
@@ -83,20 +83,22 @@ def draw():
     """création des objets (30 fois par seconde)"""
     global x,y,ennemis_liste,ennemis_liste_left,score
     # vide la fenetre
-    pyxel.cls(0)
-    pyxel.rect(0,0,256,256,7)     
+    pyxel.cls(0)     
+    # backgrounds
+    pyxel.bltm(0,0,0,0,0,255,255)
 
     pyxel.text(175, 200, f"score: {score}", 6)
   
     # dessiner le reste:
-    pyxel.text(175, 200, f"score: {score}", 6)
-    # backgrounds
 
     pyxel.rect(x , y , w , h, 8)
+    
+    pyxel.blt(x, y, 0, 0, 0, 16, 16, 6)
+    
     for ennemi in ennemis_liste_up:
-        pyxel.blt(ennemi[0], ennemi[1], 0, 0, 16, 16, 16)
+        pyxel.blt(ennemi[0], ennemi[1], 0, 0, 48, 16, 16, 7)
     for ennemi in ennemis_liste_left:
-        pyxel.blt(ennemi[0], ennemi[1], 0, 0, 16, 16, 16)
+        pyxel.blt(ennemi[0], ennemi[1], 0, 0, 48, 16, 16, 7)
     
     if game == False:
         pyxel.cls(7)
