@@ -1,0 +1,2 @@
+    if pyxel.btn(pyxel.KEY_SPACE):
+        game = False
