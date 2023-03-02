@@ -2,3 +2,16 @@
         game = False
     if pyxel.btn(pyxel.KEY_R):
         game = True
+
+def coins_creation(coins_liste):
+    while len(coins_liste) < 1 :
+        if (pyxel.frame_count % 150 == 0):
+            coins_liste.append([random.randint(40,200), random.randint(40,200)])
+    return coins_liste
+    
+def coins_collisions(coins_liste, score):
+    for coins in coins_liste:
+        if ((personnage_x + w) >= (coins[0] + w) >= personnage_x) and ((personnage_y + h + (w/2)) >= (coins[1] + (w/2)) >= personnage_y):
+            coins_liste.remove(coins)
+            score += 10
+    return coins_liste, score
