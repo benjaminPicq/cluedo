@@ -158,6 +158,9 @@ def hearts_collisions(hearts_liste, vies):
 def update():
 # flèches interactives
     global personnage_x,personnage_y,ennemis_liste_up,ennemis_liste_left,ennemis_liste_down,ennemis_liste_right,score,game,vies,niveau, coins_liste, hearts_liste
+    if niveau == 0:
+        if pyxel.btn(pyxel.KEY_N):
+            niveau = 1
     if niveau >= 0:
         personnage_x, personnage_y = personnage_deplacement(personnage_x, personnage_y)
     if niveau >= 1:
@@ -228,7 +231,7 @@ def draw():
         elif niveau == 2:
             pyxel.text(175, 200, f"Score: {score}", 0)
         
-
+        pyxel.blt(personnage_x, personnage_y, 0, 0, 0, 16, 16, transparent_colour)
         
         for ennemi in ennemis_liste_up:
             pyxel.blt(ennemi[0], ennemi[1], 0, 0, 48, 8, 16, transparent_colour)
