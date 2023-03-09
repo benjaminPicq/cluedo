@@ -1,5 +1,6 @@
 import pyxel, random
-#www.pyxelstudio.net/qwklx584
+#Pour jouer: www.pyxelstudio.net/qwklx584
+#Pour edit: https://www.pyxelstudio.net/studio/4mp2f96v/eyJpdiI6InkyS3BESnE1R0V3REU3RHd4cWFDbHc9PSIsInZhbHVlIjoieUxRZUNjS3A4eEd2a2QvZklwQUR3QT09IiwibWFjIjoiZGYzYzg1NjQzZWJiNjZmY2QxOWI4NmEzNTJkODMwMWQwMmM0OTFmMDUyN2VjY2U1NDU3ZWQ2YTg4N2IwYWQ2YSIsInRhZyI6IiJ9
 
 # taille de la fenetre 256x256 pixels
 # ne pas modifier
