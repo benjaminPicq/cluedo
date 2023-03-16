@@ -15,3 +15,34 @@ def coins_collisions(coins_liste, score):
             coins_liste.remove(coins)
             score += 10
     return coins_liste, score
+
+
+
+BOMB STUFF:
+
+def bomb_creation(bomb_liste):
+    if niveau >= 2:
+        if len(bomb_liste) < 1 :
+            if (pyxel.frame_count % 150 == 0):
+                bomb_liste.append([random.randint(40,200), random.randint(40,200)])
+    return bomb_liste
+
+def bomb_collisions(bomb_liste, ennemis_liste_up, ennemis_liste_left, ennemis_liste_down, ennemis_liste_right):
+    for bombs in bomb_liste:
+        if ((personnage_x + w) >= bombs[0] >= personnage_x - w) and ((personnage_y + h) >= bombs[1] >= personnage_y - h):
+            bomb_liste.remove(bombs)
+            ennemis_liste_up = []
+            ennemis_liste_left = []
+            ennemis_liste_down = []
+            ennemis_liste_right = []
+            
+    return bomb_liste, ennemis_liste_up, ennemis_liste_left, ennemis_liste_down, ennemis_liste_right
+    
+Global:
+
+ bomb_liste = bomb_creation(bomb_liste)
+    bomb_liste, ennemis_liste_up, ennemis_liste_left, ennemis_liste_down, ennemis_liste_right = bomb_collisions(bomb_liste, ennemis_liste_up, ennemis_liste_left, ennemis_liste_down, ennemis_liste_right)
+    
+Draw:
+    for bombs in bomb_liste:
+        pyxel.blt(bombs[0], bombs[1], 0, 0, 64, 16, 16, transparent_colour)
