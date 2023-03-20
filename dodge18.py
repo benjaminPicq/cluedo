@@ -1,5 +1,6 @@
 import pyxel, random
 #www.pyxelstudio.net/qwklx584
+#https://www.pyxelstudio.net/studio/4mp2f96v
 
 # taille de la fenetre 256x256 pixels
 # ne pas modifier
