@@ -103,42 +103,55 @@ def ennemis_deplacement(ennemis_liste, direction, sens): # sens 0 = left/up et s
             if  ennemi[direction]<0:
                 ennemis_liste.remove(ennemi)
     return ennemis_liste
-def collisions_ennemis(ennemis_liste, vies, sens):#sens 1 = left; sens 2 = right; sens 3 = up; sens 4 = down
+def collisions_ennemis(ennemis_liste, vies, sens, obstacles_liste):#sens 1 = left; sens 2 = right; sens 3 = up; sens 4 = down
+    """collisions personnage/ennemis"""
     for ennemi in ennemis_liste:
+        enw1 = ennemi[0] + w + (w/2)
+        enh1 = ennemi[1] + (h/2) + (h/2)
+        pers1 = personnage_x + w + (w/2)
+        pers2 = personnage_y + h + (h/2) + (h/2)
         if sens == 1:
-            if ((personnage_x + w +(w/2)) >= (ennemi[0] + w +(w/2)) >= personnage_x +(w/2)) and ((personnage_y + h + (h/2) + (h/2)) >= (ennemi[1] + (h/2) + (h/2)) >= personnage_y + (h/2)):
+            if (pers1 >= enw1 >= (pers1 - w)) and (pers2 >= enh1 >= (pers2 - h - (h/2))):
                     ennemis_liste.remove(ennemi)
                     vies = vies -1
         elif sens == 2:
-            if ((personnage_x + w +(w/2)) >= ennemi[0] +(w/2) >= personnage_x +(w/2)) and ((personnage_y + h + (h/2) + (h/2)) >= (ennemi[1] + (h/2) + (h/2)) >= personnage_y + (h/2)):
+            if (pers1 >= enw1 - w >= (pers1 - w)) and (pers2 >= enh1 >= (pers2 - h - (h/2))):
                     ennemis_liste.remove(ennemi)
                     vies = vies -1
         elif sens == 3:
-            if ((personnage_x + w + (w/2) +(w/2)) >= ennemi[0] + (w/2) +(w/2) >= personnage_x +(w/2)) and ((personnage_y + h + (h/2)) >= (ennemi[1] + h + (h/2)) >= personnage_y + (h/2)):
+            if ((pers1 + (w/2)) >= enw1 - (w/2) >= (pers1 - w)) and (pers2 - (h/2) >= enh1 + (h/2) >= (pers2 - h - (h/2))):
                     ennemis_liste.remove(ennemi)
                     vies = vies -1
         elif sens == 4:
-            if ((personnage_x + w + (w/2) +(w/2)) >= (ennemi[0] + (w/2) +(w/2)) >= personnage_x +(w/2)) and ((personnage_y + h + (h/2)) >= ennemi[1] + (h/2) >= personnage_y + (h/2)):
+            if ((pers1 + (w/2)) >= enw1 - (w/2) >= (pers1 - w)) and (pers2 - (h/2) >= enh1 - (h/2) >= (pers2 - h - (h/2))):
                     ennemis_liste.remove(ennemi)
                     vies = vies -1
               
-              
+        """collisions ennemis/obstacles"""      
         for obstacle in obstacles_liste:
-            obst1 = obstacle[0] + w +(w/2)
-            if sens == 1:
-                if obst1 >= (ennemi[0] + w +(w/2)) >= (obst1-w) and ((obstacle[1] + h + (h/2) + (h/2)) >= (ennemi[1] + (h/2) + (h/2)) >= obstacle[1] + (h/2)):
+            if obstacle[2] == 0:
+                obstacles_liste.remove(obstacle)
+            else:
+                obst1 = obstacle[0] + w + (w/2)
+                obst2 = obstacle[1] + h + (h/2) + (h/2)
+                if sens == 1:
+                    if (obst1 >= enw1 >= (obst1 - w)) and (obst2 >= enh1 >= (obst2 - h - (h/2))):
+                        obstacle[2] -= 1
                         ennemis_liste.remove(ennemi)
-            elif sens == 2:
-                if ((obstacle[0] + w +(w/2)) >= ennemi[0] +(w/2) >= obstacle[0] +(w/2)) and ((obstacle[1] + h + (h/2) + (h/2)) >= (ennemi[1] + (h/2) + (h/2)) >= obstacle[1] + (h/2)):
+                elif sens == 2:
+                    if obst1 >= enw1 - w >= (obst1 - w) and (obst2 >= enh1 >= obst2 - h - (h/2)):
+                        obstacle[2] -= 1
                         ennemis_liste.remove(ennemi)
-            elif sens == 3:
-                if ((obstacle[0] + w + (w/2) +(w/2)) >= ennemi[0] + (w/2) +(w/2) >= obstacle[0] +(w/2)) and ((obstacle[1] + h + (h/2)) >= (ennemi[1] + h + (h/2)) >= obstacle[1] + (h/2)):
+                elif sens == 3:
+                    if (obst1 + (w/2) >= enw1 - (w/2) >= (obst1 - w)) and ((obst2 - (h/2)) >= enh1 + (h/2) >= (obst2 - h - (h/2))):
+                        obstacle[2] -= 1
                         ennemis_liste.remove(ennemi)
-            elif sens == 4:
-                if ((obstacle[0] + w + (w/2) +(w/2)) >= (ennemi[0] + (w/2) +(w/2)) >= obstacle[0] +(w/2)) and ((obstacle[1] + h + (h/2)) >= ennemi[1] + (h/2) >= obstacle[1] + (h/2)):
+                elif sens == 4:
+                    if ((obst1 + (w/2)) >= enw1 - (w/2) >= (obst1 - w)) and ((obst2 - (h/2)) >= enh1 - (h/2) >= obst2 - h - (h/2)):
+                        obstacle[2] -= 1
                         ennemis_liste.remove(ennemi)
                         
-    return ennemis_liste, vies
+    return ennemis_liste, vies, obstacles_liste
 
 
 
@@ -175,7 +188,7 @@ def hearts_collisions(hearts_liste, vies):
 def obstacles_creation(obstacles_liste):
     if len(obstacles_liste) < 2 :
         if (pyxel.frame_count % 30 == 0):
-            obstacles_liste.append([random.randint(40,200), random.randint(40,200)])
+            obstacles_liste.append([random.randint(40,200), random.randint(40,200), 5])
     return obstacles_liste
 
 
@@ -229,10 +242,10 @@ def update():
         ennemis_liste_left = ennemis_deplacement(ennemis_liste_left, 0, 0)
         score = score_timer(score)
         game = lose(game)
-        ennemis_liste_left, vies = collisions_ennemis(ennemis_liste_left, vies, 1)
-        ennemis_liste_up, vies = collisions_ennemis(ennemis_liste_up, vies, 3)
-        ennemis_liste_right, vies = collisions_ennemis(ennemis_liste_right, vies, 2)
-        ennemis_liste_down, vies = collisions_ennemis(ennemis_liste_down, vies, 4)
+        ennemis_liste_left, vies, obstacles_liste = collisions_ennemis(ennemis_liste_left, vies, 1, obstacles_liste)
+        ennemis_liste_up, vies, obstacles_liste = collisions_ennemis(ennemis_liste_up, vies, 3, obstacles_liste)
+        ennemis_liste_right, vies, obstacles_liste = collisions_ennemis(ennemis_liste_right, vies, 2, obstacles_liste)
+        ennemis_liste_down, vies, obstacles_liste = collisions_ennemis(ennemis_liste_down, vies, 4, obstacles_liste)
         niveau = niveau_compteur(niveau)
         coins_liste = coins_creation(coins_liste)
         coins_liste, score = coins_collisions(coins_liste, score)
@@ -327,7 +340,16 @@ def draw():
             pyxel.blt(heart[0], heart[1], 0, 0, 16, 16, 16, transparent_colour_2)
             
         for obstacle in obstacles_liste:
-            pyxel.blt(obstacle[0], obstacle[1], 0, 48, 64, 16, 16)
+            if obstacle[2] == 5:
+                pyxel.blt(obstacle[0], obstacle[1], 0, 0, 96, 16, 16, transparent_colour_2)
+            elif obstacle[2] == 4:
+                pyxel.blt(obstacle[0], obstacle[1], 0, 16, 96, 16, 16, transparent_colour_2)
+            elif obstacle[2] == 3:
+                pyxel.blt(obstacle[0], obstacle[1], 0, 32, 96, 16, 16, transparent_colour_2)
+            elif obstacle[2] == 2:
+                pyxel.blt(obstacle[0], obstacle[1], 0, 48, 96, 16, 16, transparent_colour_2)
+            elif obstacle[2] == 1:
+                pyxel.blt(obstacle[0], obstacle[1], 0, 64, 96, 16, 16, transparent_colour_2)
         
         if game == False:
             pyxel.cls(7)
