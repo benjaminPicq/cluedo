@@ -46,3 +46,62 @@ Global:
 Draw:
     for bombs in bomb_liste:
         pyxel.blt(bombs[0], bombs[1], 0, 0, 64, 16, 16, transparent_colour)
+
+
+
+Cicle Hit Box:
+d = 14
+cperso = []
+
+def collisions_ennemis(ennemis_liste, vies, sens, obstacles_liste):#sens 1 = left; sens 2 = right; sens 3 = up; sens 4 = down
+    """collisions personnage/ennemis"""
+    for ennemi in ennemis_liste:
+        enw1 = ennemi[0] + w + (w/2)
+        enx = ennemi[0] + (w/2)
+        enh1 = ennemi[1] + (h/2) + (h/2)
+        eny = ennemi[1] - (h/2)
+        pers1 = personnage_x + w + (w/2)
+        pers2 = personnage_y + h + (h/2) + (h/2)
+        if d >= sqrt((((enx) - cperso[0])**2) + (((eny) - cperso[1])**2)):
+            #if (pers1 >= enw1 >= (pers1 - w)) and (pers2 >= enh1 >= (pers2 - h - (h/2))):
+            ennemis_liste.remove(ennemi)
+            vies = vies -1
+        
+              
+        """collisions ennemis/obstacles"""      
+        for obstacle in obstacles_liste:
+            if obstacle[2] == 0:
+                obstacles_liste.remove(obstacle)
+            else:
+                obst1 = obstacle[0] + (w/2)
+                obst2 = obstacle[1] - (h/2)
+                if d >= sqrt((((enx) - obst1)**2) + (((eny) - obst2)**2)):
+                    obstacle[2] -= 1
+                    ennemis_liste.remove(ennemi)
+                    
+                    
+def hearts_collisions(hearts_liste, vies):
+    for heart in hearts_liste:
+        if d >= sqrt((((heart[0] + 8) - cperso[0])**2) + (((heart[1] - 8) - cperso[1])**2)):
+        #if ((personnage_x + w) >= heart[0] >= personnage_x - w) and ((personnage_y + h) >= heart[1] >= personnage_y - h):
+            hearts_liste.remove(heart)
+            if vies < 3:
+                vies += 1
+    return hearts_liste, vies
+    
+    return ennemis_liste, vies, obstacles_liste
+    
+    
+def bomb_collisions(bomb_liste, ennemis_liste_up, ennemis_liste_left, ennemis_liste_down, ennemis_liste_right):
+    for bombs in bomb_liste:
+        if d >= sqrt((((bombs[0] + 8) - cperso[0])**2) + (((bombs[1] - 8) - cperso[1])**2)):
+      #  if ((personnage_x + w) >= bombs[0] >= personnage_x - w) and ((personnage_y + h) >= bombs[1] >= personnage_y - h):
+            bomb_liste.remove(bombs)
+            ennemis_liste_up = []
+            ennemis_liste_left = []
+            ennemis_liste_down = []
+            ennemis_liste_right = []
+            
+    return bomb_liste, ennemis_liste_up, ennemis_liste_left, ennemis_liste_down, ennemis_liste_right
+    
+cperso = [(personnage_x) + 8, (personnage_y) - 8]
