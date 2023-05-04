@@ -38,15 +38,16 @@ def init():
 
 init()
 
-def shop_code(shop, niveau, progress_level):
-    if pyxel.btn(pyxel.KEY_P) and shop == False:
-        shop = True
+def shop_code(niveau, progress_level, coins_amount, vies):
+    if pyxel.btnr(pyxel.KEY_P) and niveau >= 1:
         progress_level = niveau
         niveau = -2
-    if pyxel.btn(pyxel.KEY_P) and shop == True:
-        shop = False
+    elif pyxel.btnr(pyxel.KEY_P) and niveau == -2:
         niveau = progress_level
-    return shop, niveau, progress_level
+    if niveau == -2 and coins_amount >= 20 and pyxel.btnr(pyxel.KEY_B) and vies <= 2:
+        coins_amount -= 20
+        vies += 1
+    return niveau, progress_level, coins_amount, vies
 
 def score_timer(score):
     """augmente le score au fur et a mesure du temps"""
@@ -167,12 +168,13 @@ def clouds_creation(clouds_liste):
         clouds_liste.append([-w, random.randint(0, 240)])
     return clouds_liste
 
-def coins_collisions(coins_liste, score):
+def coins_collisions(coins_liste, score, coins_amount):
     for coins in coins_liste:
         if ((personnage_x + w) >= coins[0] >= personnage_x - w) and ((personnage_y + h) >= coins[1] >= personnage_y - h):
             coins_liste.remove(coins)
             score += 10
-    return coins_liste, score
+            coins_amount += 1
+    return coins_liste, score, coins_amount
     
 def hearts_collisions(hearts_liste, vies):
     for heart in hearts_liste:
@@ -203,7 +205,9 @@ def clouds_deplacement(clouds_liste):
 # =========================================================
 def update():
 # flèches interactives
-    global personnage_x,personnage_y,ennemis_liste_up,ennemis_liste_left,ennemis_liste_down,ennemis_liste_right,score,game,vies,niveau, coins_liste, hearts_liste, clouds_liste, bomb_liste, obstacles_liste, shop, progress_level, ennemis_listes, d, cperso
+    global personnage_x,personnage_y,ennemis_liste_up,ennemis_liste_left,ennemis_liste_down,ennemis_liste_right,score,game,vies,niveau, coins_liste, hearts_liste, clouds_liste, bomb_liste, obstacles_liste, shop, progress_level, ennemis_listes, d, cperso, coins_amount
+    
+    niveau, progress_level, coins_amount, vies = shop_code(niveau, progress_level, coins_amount, vies)
     
     if vies <= 0 or pyxel.btn(pyxel.KEY_SPACE):
         niveau = -1
@@ -234,14 +238,14 @@ def update():
         ennemis_liste_down, vies, obstacles_liste = collisions_ennemis(ennemis_liste_down, vies, obstacles_liste)
         niveau = niveau_compteur(niveau)
         coins_liste = coins_creation(coins_liste)
-        coins_liste, score = coins_collisions(coins_liste, score)
+        coins_liste, score, coins_amount = coins_collisions(coins_liste, score, coins_amount)
         hearts_liste = hearts_creation(hearts_liste)
         hearts_liste, vies = hearts_collisions(hearts_liste, vies)
         bomb_liste = bomb_creation(bomb_liste)
         bomb_liste, ennemis_liste_up, ennemis_liste_left, ennemis_liste_down, ennemis_liste_right = bomb_collisions(bomb_liste, ennemis_liste_up, ennemis_liste_left, ennemis_liste_down, ennemis_liste_right)
         obstacles_liste = obstacles_creation(obstacles_liste)
         hearts_liste, vies = hearts_collisions(hearts_liste, vies)
-        
+
         if niveau == 2:
             ennemis_liste_down = ennemis_creation(ennemis_liste_down, 1, 1)
             ennemis_liste_right = ennemis_creation(ennemis_liste_right, 0, 1)
@@ -254,9 +258,28 @@ def update():
 # =========================================================
 def draw():
     """création des objets (30 fois par seconde)"""
-    global personnage_x,personnage_y,ennemis_liste_up,ennemis_liste_left,ennemis_liste_down,ennemis_liste_right,score,vies,coins_liste, clouds_liste, transparent_colour, bomb_liste, obstacles_liste
+    global personnage_x,personnage_y,ennemis_liste_up,ennemis_liste_left,ennemis_liste_down,ennemis_liste_right,score,game,vies,niveau, coins_liste, hearts_liste, clouds_liste, bomb_liste, obstacles_liste, shop, progress_level, ennemis_listes, d, cperso, coins_amount
     # vide la fenetre
     pyxel.cls(0)
+    if niveau == -2:
+        pyxel.cls(7)
+        pyxel.rect(78, 78, 100, 100, 0)
+        pyxel.text(175, 200, f"Coins: {coins_amount}", 0)
+        pyxel.text(80, 128, "press B to buy a heart", 7)
+        if vies == 3:
+            pyxel.blt(4, 4, 0, 0, 16, 16, 16, transparent_colour_2)
+            pyxel.blt(24, 4, 0, 0, 16, 16, 16, transparent_colour_2)
+            pyxel.blt(44, 4, 0, 0, 16, 16, 16, transparent_colour_2)
+        elif vies == 2:
+            pyxel.blt(4, 4, 0, 0, 16, 16, 16, transparent_colour_2)
+            pyxel.blt(24, 4, 0, 0, 16, 16, 16, transparent_colour_2)
+            pyxel.blt(44, 4, 0, 32, 48, 16, 16, transparent_colour_2)
+        elif vies == 1:
+            pyxel.blt(4, 4, 0, 0, 16, 16, 16, transparent_colour_2)
+            pyxel.blt(24, 4, 0, 32, 48, 16, 16, transparent_colour_2)
+            pyxel.blt(44, 4, 0, 32, 48, 16, 16, transparent_colour_2)
+            
+
     if niveau == -1:
         pyxel.cls(7)
         pyxel.bltm(0, 0, 0, 512, 0, 256, 256)
@@ -275,6 +298,8 @@ def draw():
         # backgrounds
         pyxel.bltm(0, 0, 0, 0, 0, 255, 255)
         pyxel.text(175, 190, f"Niveau: {niveau}", 0)
+        pyxel.text(175, 210, f"Coins: {coins_amount}", 0)
+        
         # dessiner le reste:
         if niveau == 1:
             pyxel.text(175, 200, f"Score: {score}/100", 0)
