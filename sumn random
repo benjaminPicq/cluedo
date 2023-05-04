@@ -105,3 +105,100 @@ def bomb_collisions(bomb_liste, ennemis_liste_up, ennemis_liste_left, ennemis_li
     return bomb_liste, ennemis_liste_up, ennemis_liste_left, ennemis_liste_down, ennemis_liste_right
     
 cperso = [(personnage_x) + 8, (personnage_y) - 8]
+
+
+
+
+
+import pyxel, random
+
+pyxel.init(256, 256)
+pyxel.load("res.pyxres")
+
+personnage_x = 124
+personnage_y = 200
+w = 8
+h = 16
+coins_liste = []
+coins_amount = 0
+shop = False
+heart = False
+hearts_liste = []
+
+def personnage_deplacement(x, y):
+    """déplacement avec les touches de directions"""
+    if pyxel.btn(pyxel.KEY_RIGHT):
+        if (x < 256-w):
+            x = x+2
+    if pyxel.btn(pyxel.KEY_LEFT):
+        if (x > 0):
+            x = x-2
+    if pyxel.btn(pyxel.KEY_UP):
+        if (y > 0):
+            y = y-2
+    if pyxel.btn(pyxel.KEY_DOWN):
+        if (y < 256-h):
+            y = y+2
+    return x, y
+
+def coins_creation(coins_liste):
+    if len(coins_liste) < 2:
+        if (pyxel.frame_count % 150 == 0):
+            coins_liste.append([random.randint(40,200), random.randint(40,200)])
+    return coins_liste
+    
+def coins_collisions(coins_liste, coins_amount):
+    for coins in coins_liste:
+        if ((personnage_x + w) >= coins[0] >= personnage_x - w) and ((personnage_y + h) >= coins[1] >= personnage_y - h):
+            coins_liste.remove(coins)
+            coins_amount += 1
+    return coins_liste, coins_amount
+    
+def heart_creation(hearts_liste, heart, coins_amount):
+    if heart == True:
+        if len(hearts_liste) < 1:
+            hearts_liste.append([random.randint(40,200), random.randint(40,200)])
+    return hearts_liste, heart, coins_amount
+    
+def heart_collision(hearts_liste, heart):
+    for hs in hearts_liste:
+        if ((personnage_x + w) >= hs[0] >= personnage_x - w) and ((personnage_y + h) >= hs[1] >= personnage_y - h):
+            hearts_liste.remove(hs)
+            heart = False
+    return hearts_liste, heart
+    
+def update():
+    global personnage_x, personnage_y, coins_liste, coins_amount, shop, heart, heart_creation, hearts_liste, heart_collision
+
+    if pyxel.btnr(pyxel.KEY_S):
+        shop = True
+    if pyxel.btnr(pyxel.KEY_E):
+        shop = False
+    if coins_amount >= 10 and pyxel.btnr(pyxel.KEY_B) and shop == True:
+        coins_amount -= 10
+        heart = True  
+    if shop == False:
+        personnage_x, personnage_y = personnage_deplacement (personnage_x, personnage_y)
+        coins_liste = coins_creation(coins_liste)
+        coins_liste, coins_amount = coins_collisions(coins_liste, coins_amount)
+        hearts_liste, heart, coins_amount = heart_creation(hearts_liste, heart, coins_amount)
+        hearts_liste, heart = heart_collision(hearts_liste, heart)
+def draw():
+    global personnage_x,personnage_y,score,coins_liste,shop,hearts_liste
+    
+    if shop == False:
+        pyxel.cls(7)
+        pyxel.rect(personnage_x , personnage_y , w , h, 0)
+        for coin in coins_liste:
+            pyxel.blt(coin[0], coin[1], 0, 0, 0, 8, 8)
+        pyxel.text(175, 200, f"Coins: {coins_amount}", 0)
+        for coeur in hearts_liste:
+            pyxel.rect(coeur[0], coeur[1], 8, 8, 8)
+            
+    if shop == True:
+        pyxel.cls(7)
+        pyxel.text(175, 200, f"Coins: {coins_amount}", 0)
+        pyxel.rect(78, 78, 100, 100, 0)
+        pyxel.text(80, 128, "press B to buy a heart", 7)
+        
+pyxel.run(update, draw)
