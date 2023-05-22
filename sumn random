@@ -939,3 +939,32 @@ def draw():
                 pyxel.blt(64, 4, 0, 32, 48, 16, 16, transparent_colour_2)
 
 pyxel.run(update,draw)
+
+
+
+
+def mine(mine_liste):
+    if niveau >= 1:
+        if len(mine_liste) < 1 :
+            if (pyxel.frame_count % 200 == 0):
+                mine_liste.append([random.randint(40,200), random.randint(40,200)])
+    return mine_liste
+def mine_collision(mine_liste, vies, obstacles_liste, bomb_liste, hearts_liste, coins_liste):
+    for mine in mine_liste:
+        if 14 >= sqrt((((cperso[0]) - mine[0]-8)**2) + (((cperso[1]) - mine[1]+8)**2)) :
+            mine_liste.remove(mine)
+            vies -= 1
+            hearts_liste = []
+            bomb_liste = []
+            coins_liste = []
+            for obstacle in obstacles_liste:
+                if 128 >= sqrt((((obstacle[0]+ (w/2)) - mine[0]+24)**2) + (((obstacle[1] - (h/2)) - mine[1]-24)**2)):
+                    obstacles_liste = []
+        elif (pyxel.frame_count % 500 == 0):
+            mine_liste.remove(mine)
+                
+    return mine_liste, vies, obstacles_liste, bomb_liste, hearts_liste, coins_liste
+
+
+ for mine in mine_liste:
+            pyxel.blt(mine[0], mine[1], 0, 64, 80, 16, 16, transparent_colour_2)    
